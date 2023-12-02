@@ -7,6 +7,28 @@
   pointer-events: none;
 }
 
+.beautiful-blue {
+  margin: 0; 
+  padding: 0; 
+  background-image: url("./img/beautiful-blue-sky.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+}
+
+.luffy-clouds {
+  margin: 0; 
+  padding: 0; 
+  background-image: url("./img/fluffy-clouds-blue.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

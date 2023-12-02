@@ -1,26 +1,38 @@
-import * as React from 'react';
+import React from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
+import { makeStyles } from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: '2px 14px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: '10px',
+  },
+}));
 
 function SearchButton() {
+  const classes = useStyles();
+
   return (
-    // TODO: Autocomplete in serch button from material ui
-    <Paper
-      component="form"
-      sx={{ p: '2px 14px', display: 'flex', alignItems: 'center', width: 400 }}
-    >
+    // TODO: Autocomplete in search button from Material-UI
+    <Paper component="form" className={classes.paper}>
       <InputBase
-        sx={{ ml: 1, flex: 1 }}
+        className={classes.input}
         placeholder="Search City"
         inputProps={{ 'aria-label': 'Search City' }}
       />
-      <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+      <IconButton type="button" className={classes.iconButton} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>
