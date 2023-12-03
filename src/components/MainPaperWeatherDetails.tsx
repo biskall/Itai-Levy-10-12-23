@@ -4,7 +4,7 @@ import { Paper, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
+  mainBox: {
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
@@ -17,7 +17,21 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     elevation: 3,
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor: "#fff",
+    color: "#000",
+    opacity: .6
+  },
+  degreeSign: {
+    fontSize: '0.5 em', 
+    verticalAlign: 'small',
+    position: 'relative',
+    top: -5, 
+    marginRight: -5,
+    marginLeft: -5,
+  },
+  subtitle: {
+    marginLeft: -7, 
   },
 }));
 
@@ -25,27 +39,25 @@ function MainPaperWeatherDetails() {
   const classes = useStyles();
 
   return (
-    <Box className={classes.container}>
+    <Box className={classes.mainBox}>
       <Paper className={classes.paper}>
-        {/* Upper Part */}
       <Typography variant="h6" gutterBottom>
-        sunday 13/12/24
+       sunday 13/12/24
       </Typography>
-      {/* Middle Part */}
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <Typography variant="h3" color="primary">
-            {/* Left Number */}
-            42 {/* Replace with your dynamic data */}
+          <Typography variant="h4" >
+            42.23 
+            <span className={classes.degreeSign}>°</span>
           </Typography>
-          <Typography variant="subtitle2">Minimum</Typography>
+          <Typography variant="subtitle1" className={classes.subtitle}>Min</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant="h3" color="secondary">
-            {/* Right Number */}
-            78 {/* Replace with your dynamic data */}
+          <Typography variant="h4">
+            78.31
+            <span className={classes.degreeSign}>°</span>
           </Typography>
-          <Typography variant="subtitle2">Maximum</Typography>
+          <Typography variant="subtitle1" className={classes.subtitle}>Max</Typography>
         </Grid>
       </Grid>
       </Paper>

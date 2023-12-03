@@ -18,7 +18,9 @@ function AdvancedSettings() {
     style={{
         alignItems: "center",
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginTop: -10,
+        marginLeft: '1%',
         }}>
     <Checkbox  style={{
         marginRight: '1%', 

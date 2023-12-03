@@ -12,6 +12,11 @@ import { Link } from "react-router-dom";
 import DrawerComponent from "./DrawerComponent";
 
 const useStyles = makeStyles((theme) => ({
+  main:{
+    backgroundColor: "#fff",
+    color: "#005",
+    opacity: .2
+  },
   navlinks: {
     marginLeft: theme.spacing(2),
     display: "flex",
@@ -22,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: "none",
-    color: "white",
+    color: "black",
     fontSize: "20px",
     marginLeft: theme.spacing(5),
     "&:hover": {
@@ -38,7 +43,7 @@ function Header() {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={classes.main}>
       <CssBaseline />
       <Toolbar>
         <Typography variant="h4" className={classes.logo}>

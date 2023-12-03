@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   Container,
   Grid,
+  Typography,
   TextField,
   Button,
   Box,
@@ -21,13 +22,15 @@ import OthersPaperWeatherDetails from "./OthersPaperWeatherDetails";
 import AdvancedSettings from "./AdvancedSettings";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
+  gridSearchButton: {
     paddingBottom: "10px",
     justifyContent: "space-evenly",
     alignItems: "center",
   },
   gridItem: {
-    paddingBottom: "10px",
+    paddingBottom: "0px",
+  },
+  gridMainPaperWeatherDetails:{
   },
   box: {
     display: "flex",
@@ -39,6 +42,17 @@ const useStyles = makeStyles((theme) => ({
       width: 128,
       height: 128,
     },
+  },
+  cityTitle: {
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+    flexWrap: "wrap",
+    paddingBottom: "5px",
+    color: theme.palette.info.dark, // Use the primary color of your theme (assumed to be blue)
+    fontSize: '1.5em', // Adjust the font size as needed
+    fontWeight: 'bold', // Adjust the font weight as needed
+    textTransform: 'uppercase', // Optional: Convert text to uppercase
   },
 }));
 
@@ -52,14 +66,17 @@ const WeatherPage = () => {
   return (
     <Box style={{marginTop: "20px"}}>
     <Grid container spacing={3} className={classes.gridItem}>
-      <Grid item container direction="column" className={classes.container} >
+      <Grid item container direction="column" className={classes.gridSearchButton} >
           <SearchButton />
           {/* Other UI components */}
       </Grid>
       <Container>
         <AdvancedSettings />
       </Container>
-      <Grid item xs={12}>
+      <Grid item xs={12} className={classes.gridMainPaperWeatherDetails}>
+      <Typography variant="h5" className={classes.cityTitle} >
+       Tel Aviv
+      </Typography>
         <MainPaperWeatherDetails />
       </Grid>
       <Grid item xs={12}>

@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     width: 400,
+    backgroundColor: "#fff",
+    color: "#000",
+    opacity: .8
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -31,6 +34,7 @@ function SearchButton() {
         className={classes.input}
         placeholder="Search City"
         inputProps={{ 'aria-label': 'Search City' }}
+        
       />
       <IconButton type="button" className={classes.iconButton} aria-label="search">
         <SearchIcon />
