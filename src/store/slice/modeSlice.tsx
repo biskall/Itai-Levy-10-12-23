@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Mode } from "../../interfaces/mode-interface";
+import { Mode } from "../../interfaces/interfaces";
 
 const initialState: Mode = {
-    value: "dark"
+    value: "light"
 }
 
 const modeSlice = createSlice({

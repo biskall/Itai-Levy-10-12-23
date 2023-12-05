@@ -9,16 +9,22 @@ import {
 } from "@material-ui/core";
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
+import SwitchMode from "./SwitchMode";
 
 const useStyles = makeStyles(()=>({
-    link:{
-        textDecoration:"none",
-        color: "black",
-        fontSize: "20px",
-    },
-    icon:{
-        color: "black"
-    }
+  main:{
+    backgroundColor: "#ffff",
+    color: "#002",
+    opacity: .7
+  },
+  link:{
+    textDecoration:"none",
+    color: "#fff",
+    fontSize: "20px",
+  },
+  icon:{
+    color: "#fff"
+  }
 }));
 
 function DrawerComponent() {
@@ -27,6 +33,7 @@ const classes = useStyles();
   return (
     <>
       <Drawer
+        className={classes.main}
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
@@ -43,6 +50,7 @@ const classes = useStyles();
           </ListItem>
         </List>
       </Drawer>
+      <SwitchMode></SwitchMode>
       <IconButton onClick={() => setOpenDrawer(!openDrawer)}>
         <MenuIcon />
       </IconButton>

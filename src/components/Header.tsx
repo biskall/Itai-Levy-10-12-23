@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import DrawerComponent from "./DrawerComponent";
+import SwitchMode from "./SwitchMode";
+
 
 const useStyles = makeStyles((theme) => ({
   main:{
@@ -18,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
     opacity: .2
   },
   navlinks: {
-    marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(-2),
     display: "flex",
   },
   logo: {
@@ -29,13 +32,16 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "black",
     fontSize: "20px",
-    marginLeft: theme.spacing(5),
+    marginLeft: theme.spacing(1),
+    marginTop: theme.spacing(1.2),
+    marginRight: theme.spacing(6),
     "&:hover": {
       color: "black",
       borderBottom: "1px solid",
     },
-  },
+  }
 }));
+
 
 function Header() {
   const classes = useStyles();
@@ -59,6 +65,7 @@ function Header() {
             <Link to="/favorite" className={classes.link}>
               Favorites
             </Link>
+            <SwitchMode></SwitchMode>
           </div>
         )}
       </Toolbar>
