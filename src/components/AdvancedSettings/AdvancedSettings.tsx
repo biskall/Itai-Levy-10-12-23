@@ -1,12 +1,12 @@
 import * as React from 'react';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import Checkbox from '@mui/material/Checkbox';
-import { Box } from '@material-ui/core';
+import {FavoriteBorder, Favorite} from '@mui/icons-material';
+import {Radio, 
+RadioGroup,
+FormControlLabel,  
+FormControl, 
+Checkbox,
+Box} from '@material-ui/core';
+import useStyles from "./Style";
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 

@@ -6,8 +6,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
-import { makeStyles } from "@material-ui/core"; 
-import FavoritesCard from "./FavoriteCard";
+import FavoritesCard from "../FavoritesCard/FavoriteCard";
+import useStyles from "./Style";
 
 interface CityData {
     name: string;
@@ -23,9 +23,6 @@ const citiesData: CityData[] = [
     // Add more cities as needed
   ];
   
-
-const useStyles = makeStyles((theme) => ({
-}));
 
 const FavoritesPage: React.FC = () => {
   const classes = useStyles();

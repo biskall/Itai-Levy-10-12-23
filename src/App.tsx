@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import Header from './components/Header';
-import WeatherPage from './components/WeatherPage';
-import FavoritesPage from './components/FavoritesPage';
+import Header from './components/Header/Header';
+import WeatherPage from './components/WeatherPage/WeatherPage';
+import FavoritesPage from './components/FavoritesPage/FavoritesPage';
 import "./App.css";
 
 

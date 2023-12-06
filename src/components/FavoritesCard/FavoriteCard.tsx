@@ -1,21 +1,12 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Container, Typography, Grid, Card, CardContent } from "@mui/material";
-import { makeStyles } from "@material-ui/core"; 
+import { Typography, Card, CardContent } from "@mui/material";
+import useStyles from "./Style"; 
 
 interface CityCardProps {
     name: string;
     temperature: string;
     weather: string;
 }
-
-const useStyles = makeStyles((theme) => ({
-    mainCard:{
-        backgroundColor: "#fff",
-        color: "#000",
-        opacity: .7
-    }
-}));
 
 const FavoritesCard: React.FC<CityCardProps> = ({ name, temperature, weather }) => {
     const classes = useStyles();

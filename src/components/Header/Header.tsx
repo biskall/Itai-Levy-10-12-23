@@ -4,43 +4,13 @@ import {
   Toolbar,
   CssBaseline,
   Typography,
-  makeStyles,
   useTheme,
   useMediaQuery,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import DrawerComponent from "./DrawerComponent";
-import SwitchMode from "./SwitchMode";
-
-
-const useStyles = makeStyles((theme) => ({
-  main:{
-    backgroundColor: "#fff",
-    color: "#005",
-    opacity: .2
-  },
-  navlinks: {
-    marginLeft: theme.spacing(4),
-    marginRight: theme.spacing(-2),
-    display: "flex",
-  },
-  logo: {
-    flexGrow: 1,
-    cursor: "pointer",
-  },
-  link: {
-    textDecoration: "none",
-    color: "black",
-    fontSize: "20px",
-    marginLeft: theme.spacing(1),
-    marginTop: theme.spacing(1.2),
-    marginRight: theme.spacing(6),
-    "&:hover": {
-      color: "black",
-      borderBottom: "1px solid",
-    },
-  }
-}));
+import DrawerComponent from "../DrawerComponent/DrawerComponent";
+import SwitchMode from "../SwitchMode/SwitchMode";
+import useStyles from "./Style";
 
 
 function Header() {

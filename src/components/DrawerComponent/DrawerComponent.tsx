@@ -5,27 +5,12 @@ import {
   List,
   ListItem,
   ListItemText,
-  makeStyles,
 } from "@material-ui/core";
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
-import SwitchMode from "./SwitchMode";
+import SwitchMode from "../SwitchMode/SwitchMode";
+import useStyles from "./Style";
 
-const useStyles = makeStyles(()=>({
-  main:{
-    backgroundColor: "#ffff",
-    color: "#002",
-    opacity: .7
-  },
-  link:{
-    textDecoration:"none",
-    color: "#fff",
-    fontSize: "20px",
-  },
-  icon:{
-    color: "#fff"
-  }
-}));
 
 function DrawerComponent() {
 const classes = useStyles();

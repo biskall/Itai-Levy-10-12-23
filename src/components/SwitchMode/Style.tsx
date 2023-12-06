@@ -1,13 +1,9 @@
-import React, {useState} from 'react';
-import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { styled } from '@mui/system';
 import Switch from '@mui/material/Switch';
-import { useAppDispatch, useAppSelector } from '../store/Hook';
-import {modeActions} from '../store/slice/modeSlice';
+
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
-    width: 60,
+  width: 60,
     height: 34,
     padding: 7,
     '& .MuiSwitch-switchBase': {
@@ -51,26 +47,6 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
       backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
       borderRadius: 20 / 2,
     },
-  }));
+}));
 
-function SwitchMode() {
-  //const mode = useSelector((state: {mode: { value: string }} ) => state.mode.value);
-  const mode = useAppSelector((state) => state.mode.value);
-  const dispatch = useAppDispatch();
-  const [isChecked, setIsChecked] = useState(mode === "light" ? false : true);
-
-  const handleChange = () => {
-    dispatch(modeActions.changeMode());
-    setIsChecked(!isChecked);
-  };
-    return (
-      <FormGroup>
-        <FormControlLabel
-          control={<MaterialUISwitch sx={{ m: 1 }} checked={isChecked} onChange={handleChange} />}
-          label=""
-        />
-      </FormGroup>
-  );
-}
-
-export default SwitchMode;
+export default MaterialUISwitch ;
