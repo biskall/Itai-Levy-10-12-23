@@ -5,7 +5,6 @@ import WeatherPage from './components/WeatherPage/WeatherPage';
 import FavoritesPage from './components/FavoritesPage/FavoritesPage';
 import "./App.css";
 
-
 function App() {
   const mode = useSelector((state: { mode: { value: string } }) => state.mode.value);
   return (

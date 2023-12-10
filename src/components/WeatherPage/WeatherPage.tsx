@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 import {
   Container,
   Grid,
@@ -11,9 +11,9 @@ import MainPaperWeatherDetails from "../MainPaperWeatherDetails/MainPaperWeather
 import AdvancedSettings from "../AdvancedSettings/AdvancedSettings";
 import ForecastWeatherContainer from "../ForecastWeatherContainer/ForecastWeatherContainer";
 import { useAppDispatch, useAppSelector } from '../../store/Hook';
-import {favoriteActions} from "../../store/slice/FavoriteSlice"
-import {weatherActions} from "../../store/slice/WeatherSlice";
-import {messageForAlert} from "../../interfaces/exampleData";
+import { favoriteActions } from "../../store/slice/FavoriteSlice"
+import { weatherActions } from "../../store/slice/WeatherSlice";
+import { messageForAlert } from "../../interfaces/exampleData";
 import Spinner from "../SpinnerComponent/Spinner";
 
 
@@ -28,54 +28,54 @@ const WeatherPage = () => {
 
   // Function to perform initial steps, including fetching weather data and initializing local storage
   const initialStep = async () => {
-    try{
-      if(currentWeatherDatakeys.cityKey != null && currentWeatherDatakeys.cityKey !== "" ){
+    try {
+      if (currentWeatherDatakeys.cityKey != null && currentWeatherDatakeys.cityKey !== "") {
         await dispatch(weatherActions.getWeatherDataByKey(currentWeatherDatakeys.cityKey));
-      }else{
+      } else {
         await dispatch(weatherActions.getWeatherDataByKey(defultWeatherDataKeys.cityKey));
       }
-    }catch{
+    } catch {
     }
   };
-  
+
 
   useEffect(() => {
-    if(isError){
+    if (isError) {
       alert(messageForAlert);
     }
     initialStep();
     dispatch(favoriteActions.initialLocalStorage());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentWeatherDatakeys]);
 
   return (
-    <Box style={{marginTop: "20px"}}>
-      {isLoading &&  <Spinner isLoading={isLoading} />}
-      {!isLoading && 
-    <Grid container spacing={3} className={classes.gridItem}>
-      <Grid item container direction="column" className={classes.gridSearchButton} >
-          {/* <NewSearchButton /> */}
-          <SearchButton/>
-      </Grid>
-      <Container>
-        <AdvancedSettings 
-        cityKey ={currentWeatherDatakeys.cityKey ? currentWeatherDatakeys.cityKey : defultWeatherDataKeys.cityKey}
-        cityName = {currentWeatherDatakeys.cityName ? currentWeatherDatakeys.cityName : defultWeatherDataKeys.cityName}/>
-      </Container>
-      <Grid item xs={12} className={classes.gridMainPaperWeatherDetails}>
-      <Typography variant="h5" className={classes.cityTitle} >
-       {currentWeatherDatakeys.cityName ? currentWeatherDatakeys.cityName : defultWeatherDataKeys.cityName}
-      </Typography>
-          {currentWeatherDataDetails &&
-          <MainPaperWeatherDetails WeatherData={currentWeatherDataDetails} />
-          }
-      </Grid>
-      <Grid item xs={12}>
-          <ForecastWeatherContainer
-           cityKey = {currentWeatherDatakeys.cityKey ? currentWeatherDatakeys.cityKey : defultWeatherDataKeys.cityKey}
-           ></ForecastWeatherContainer>
-      </Grid>
-    </Grid>}
+    <Box style={{ marginTop: "20px" }}>
+      {isLoading && <Spinner isLoading={isLoading} />}
+      {!isLoading &&
+        <Grid container spacing={3} className={classes.gridItem}>
+          <Grid item container direction="column" className={classes.gridSearchButton} >
+            {/* <NewSearchButton /> */}
+            <SearchButton />
+          </Grid>
+          <Container>
+            <AdvancedSettings
+              cityKey={currentWeatherDatakeys.cityKey ? currentWeatherDatakeys.cityKey : defultWeatherDataKeys.cityKey}
+              cityName={currentWeatherDatakeys.cityName ? currentWeatherDatakeys.cityName : defultWeatherDataKeys.cityName} />
+          </Container>
+          <Grid item xs={12} className={classes.gridMainPaperWeatherDetails}>
+            <Typography variant="h5" className={classes.cityTitle} >
+              {currentWeatherDatakeys.cityName ? currentWeatherDatakeys.cityName : defultWeatherDataKeys.cityName}
+            </Typography>
+            {currentWeatherDataDetails &&
+              <MainPaperWeatherDetails WeatherData={currentWeatherDataDetails} />
+            }
+          </Grid>
+          <Grid item xs={12}>
+            <ForecastWeatherContainer
+              cityKey={currentWeatherDatakeys.cityKey ? currentWeatherDatakeys.cityKey : defultWeatherDataKeys.cityKey}
+            />
+          </Grid>
+        </Grid>}
     </Box>
   );
 };

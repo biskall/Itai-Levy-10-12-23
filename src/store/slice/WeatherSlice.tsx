@@ -42,7 +42,7 @@ const weatherSlice = createSlice({
     initialState,
     reducers:{
         // Reducer for setting the current weather data keys from search
-        setCurrentWeatherDataKeysFromSearch(state, action: PayloadAction<{ country: Country }>){
+        setCurrentWeatherDataKeysFromSearch(state, action: PayloadAction<{ country: Pick<Country, 'Key' | 'LocalizedName'> }>){
             state.currentWeatherDatakeys.cityKey = action.payload.country.Key;
             state.currentWeatherDatakeys.cityName = action.payload.country.LocalizedName;
         },

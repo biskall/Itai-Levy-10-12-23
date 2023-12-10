@@ -8,7 +8,7 @@ import forecastsSlice from "./slice/ForecastsSlice";
 
 
 const store = configureStore({
-    reducer:{
+    reducer: {
         forecasts: forecastsSlice.reducer,
         autocomplete: autocompleteSlice.reducer,
         cardFavorite: cardFavoriteSlice.reducer,

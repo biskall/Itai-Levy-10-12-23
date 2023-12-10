@@ -72,9 +72,6 @@ const SecondaryPaperWeatherDetails: React.FC<SecondaryPaperWeatherDetailsProps> 
       <Typography variant="h6" gutterBottom>
         {dateString}
       </Typography>
-      <Grid item xs={6}>
-          {/* <img src="sun.png" alt="Sun" className={classes.sunImage} /> */}
-        </Grid>
       <Grid item xs={6} className={classes.temperature}>
         <Typography variant="h5" className={classes.typoMin}>
         {minTemperatureValue} 

@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() => ({
-  mainCard:{
+  mainCard: {
     backgroundColor: "#fff",
     color: "#000",
     opacity: .7

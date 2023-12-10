@@ -5,8 +5,6 @@ import { useAppDispatch, useAppSelector } from '../../store/Hook';
 import { cardFavoriteActions } from '../../store/slice/CardFavorite';
 import ErrorComponent from '../ErrorComponent/ErrorComponent';
 
-
-
 const FavoritesPage: React.FC = () => {
   const favoriteData = useAppSelector((state) => state.cardFavorite.WeatherDataWithKeyAndName);
   const isError = useAppSelector((state) => state.cardFavorite.IsError);
