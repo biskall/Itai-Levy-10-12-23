@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {
   Container,
   Grid,
@@ -30,15 +30,11 @@ const WeatherPage = () => {
   const initialStep = async () => {
     try{
       if(currentWeatherDatakeys.cityKey != null && currentWeatherDatakeys.cityKey !== "" ){
-        console.log("initialStep with cityKey from server");
         await dispatch(weatherActions.getWeatherDataByKey(currentWeatherDatakeys.cityKey));
       }else{
-        console.log("initialStep with cityKey from local");
         await dispatch(weatherActions.getWeatherDataByKey(defultWeatherDataKeys.cityKey));
       }
-
     }catch{
-      console.log("isError");
     }
   };
   
@@ -49,7 +45,8 @@ const WeatherPage = () => {
     }
     initialStep();
     dispatch(favoriteActions.initialLocalStorage());
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentWeatherDatakeys]);
 
   return (
     <Box style={{marginTop: "20px"}}>

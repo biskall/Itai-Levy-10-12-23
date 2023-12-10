@@ -27,11 +27,8 @@ const FavoritesCard: React.FC<WeatherDataWithKeyAndName> = (weatherData) => {
 
     useEffect(() => {
       setTimeout(() => initialStep(), 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [weatherData,isCelsius]);
-
-    useEffect(() => {
-      setTimeout(() => initialStep(), 100);
-    }, []);
 
     return (
       <>{data && 

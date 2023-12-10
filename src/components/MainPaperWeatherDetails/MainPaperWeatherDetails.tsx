@@ -4,19 +4,11 @@ import { MainPaperWeatherDetailsProps } from "../../interfaces/AllInterfaces";
 import { useAppSelector } from '../../store/Hook';
 import useStyles from "./Style";
 
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
-
 const MainPaperWeatherDetails: React.FC<MainPaperWeatherDetailsProps> = ({WeatherData}) => {
   const classes = useStyles();
   const [formattedDate, setFormattedDate] = useState<string>();
-  const [temperatureValue, setTemperatureValue] = useState<number>();
   const isCelsius = useAppSelector((state) => state.mode.isCelsius);
   const currentWeatherDataDetails = useAppSelector((state) => state.weather.currentWeatherDataDetails);
-  const isLoading = useAppSelector((state) => state.weather.IsLoading); 
   
 
   // Get day and date in the desired format
@@ -37,27 +29,10 @@ const MainPaperWeatherDetails: React.FC<MainPaperWeatherDetailsProps> = ({Weathe
     setFormattedDate(`${ConvertFormattWeakday} ${convertedFormattedDay}/${convertedFormattedMonth}/${convertedFormattedYear}`);
   }
 
-  const set = async() => {
-    console.log("WeatherData.Temperature.Metric.Value")
-    console.log(WeatherData.Temperature.Metric.Value)
-    console.log("WeatherData.Temperature.Imperial.Value")
-    console.log(WeatherData.Temperature.Imperial.Value)
-    await sleep(1e3);
-    console.log("WeatherData.Temperature.Metric.Value")
-    console.log(WeatherData.Temperature.Metric.Value)
-    console.log("WeatherData.Temperature.Imperial.Value")
-    console.log(WeatherData.Temperature.Imperial.Value)
-  }
 
   useEffect(() => {
-    //set();
-  }, [isCelsius]);
-
-  useEffect(() => {
-    console.log(WeatherData)
     setDate();
-    console.log("set")
-    set();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentWeatherDataDetails]);
 
   return (

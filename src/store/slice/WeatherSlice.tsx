@@ -9,7 +9,7 @@ const initialState: WeatherInitialState = {
     options: [],
     defultWeatherDataKeys:{
         isFavorite: false,
-        cityKey: "1111",
+        cityKey: "215854",
         cityName: "TEL AVIV",
     },
     currentWeatherDatakeys: {
@@ -43,7 +43,6 @@ const weatherSlice = createSlice({
     reducers:{
         // Reducer for setting the current weather data keys from search
         setCurrentWeatherDataKeysFromSearch(state, action: PayloadAction<{ country: Country }>){
-            console.log( action.payload.country);
             state.currentWeatherDatakeys.cityKey = action.payload.country.Key;
             state.currentWeatherDatakeys.cityName = action.payload.country.LocalizedName;
         },
@@ -65,7 +64,7 @@ const weatherSlice = createSlice({
         builder
           .addCase(getWeatherDataByKey.fulfilled, (state, action: PayloadAction<CurrentWeatherDataDetails | undefined>) => {
             // Update the state with the fetched current weather data on success
-            if(action.payload != undefined){
+            if(action.payload !== undefined){
                 state.currentWeatherDataDetails = action.payload;
                 state.IsError = false; 
                 state.IsLoading = false;

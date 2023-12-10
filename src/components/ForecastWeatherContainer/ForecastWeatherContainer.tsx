@@ -26,6 +26,7 @@ const ForecastWeatherContainer: React.FC<ForecastWeatherContainerProps> = ({city
 
   useEffect(() => {
     initialStep();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityKey]);
 
   return (

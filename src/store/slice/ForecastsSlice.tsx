@@ -21,10 +21,8 @@ export const getForecastData = createAsyncThunk(
     try {
       //throw new Error('Intentional error for testing getForecastData');
       const response = await axios.get(forecastsByCityKey(cityKey), {headers: { Accept: 'application/json' }})
-      console.log(response);
       return response.data;
     } catch (error) {
-      console.error("Error fetching Forecast data:", error);
       throw error;
     }
   }

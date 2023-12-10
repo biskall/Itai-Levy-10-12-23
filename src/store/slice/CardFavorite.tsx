@@ -23,7 +23,6 @@ export const getAllFavoritesWeatherData = createAsyncThunk(
         var weatherDataWithKeyAndName: WeatherDataWithKeyAndName[] = []
         
         if (favoritesLocalStorage) {
-          var state = getState() as { favorite: CardFavoritesIntialState };
           const listFavorites: Favorites[] = JSON.parse(favoritesLocalStorage) as Favorites[];
           
           // Loop through each favorite to fetch weather data
@@ -44,7 +43,6 @@ export const getAllFavoritesWeatherData = createAsyncThunk(
         // Return the array of weather data with key and name
         return weatherDataWithKeyAndName;
       } catch (error) {
-        console.log("Error fetching weather data:", error);
         throw error;
       }
     }

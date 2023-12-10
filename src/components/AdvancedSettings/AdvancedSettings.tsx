@@ -9,7 +9,6 @@ Box} from '@material-ui/core';
 import {favoriteActions} from '../../store/slice/FavoriteSlice';
 import { useAppDispatch, useAppSelector } from '../../store/Hook';
 import { modeActions } from '../../store/slice/modeSlice';
-import useStyles from "./Style";
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -20,7 +19,6 @@ interface AdvancedSettingsProps {
 }
 
 const AdvancedSettings: React.FC<AdvancedSettingsProps> = ({cityKey, cityName}) => {
-  const classes = useStyles();
   const [selected, setSelected] = React.useState<boolean>(); // false = not in favorite
   const isFavorite = useAppSelector((state) => state.favorite.IsFavorite);
   const dispatch = useAppDispatch();
@@ -54,8 +52,8 @@ const AdvancedSettings: React.FC<AdvancedSettingsProps> = ({cityKey, cityName}) 
   }
 
   useEffect(() => {
-    console.log("AdvancedSettings") 
     initialStep();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityKey, isFavorite, isCelsius]);
 
   return (
@@ -81,7 +79,6 @@ const AdvancedSettings: React.FC<AdvancedSettingsProps> = ({cityKey, cityName}) 
         }}>
     <RadioGroup
       color="primary"
-      className={classes.Radio}
       row
       aria-labelledby="demo-row-radio-buttons-group-label"
       name="row-radio-buttons-group"

@@ -1,7 +1,7 @@
 import  React , {useEffect, useState} from 'react';
 import { Paper, Typography, Box, Grid} from '@material-ui/core';
 import { Forecast } from "../../interfaces/AllInterfaces"
-import { useAppDispatch, useAppSelector } from '../../store/Hook';
+import { useAppSelector } from '../../store/Hook';
 import useStyles from "./Style";
 
 interface SecondaryPaperWeatherDetailsProps {
@@ -55,15 +55,11 @@ const SecondaryPaperWeatherDetails: React.FC<SecondaryPaperWeatherDetailsProps> 
   }
 
   useEffect(() => {
-    // TODO: convert TemperatureValue 
-    convertTemperatureValue(isCelsius);
-  }, [isCelsius]);
-
-  useEffect(() => {
     if (forecast) {
       setTimeout(() =>setDayAndDate(forecast.Date), 200);
       convertTemperatureValue(isCelsius);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [forecast, isCelsius]);
 
   return (

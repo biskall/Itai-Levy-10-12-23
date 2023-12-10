@@ -1,4 +1,3 @@
-import { Favorite } from "@mui/icons-material";
 import { createSlice, PayloadAction, createAsyncThunk,} from "@reduxjs/toolkit";
 import { Favorites, FavoritesIntialState } from "../../interfaces/AllInterfaces";
 const FavoritesLocalStorageKey = "FavoritesLocalStorageKey"
@@ -29,7 +28,7 @@ const favoriteSlice = createSlice({
     reducers:{
         // Reducer for setting a city as a favorite
         SetCityInFavorite(state, action: PayloadAction<{ favorites: Favorites }>){
-            const isFavoriteExists = state.Favorites.find((favor) => favor.cityKey == action.payload.favorites.cityKey);
+            const isFavoriteExists = state.Favorites.find((favor) => favor.cityKey === action.payload.favorites.cityKey);
             if(!isFavoriteExists){
                 state.Favorites.push(action.payload.favorites);
                 try{

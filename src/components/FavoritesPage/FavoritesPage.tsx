@@ -19,11 +19,8 @@ const FavoritesPage: React.FC = () => {
 
   useEffect(() => {
     initialStep();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError]);
-
-  useEffect(() => {
-    initialStep();
-  }, []);
 
   return (
     <Container maxWidth="md">
