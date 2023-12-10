@@ -7,7 +7,6 @@ import autocompleteSlice from "./slice/AutocompleteSlice";
 import forecastsSlice from "./slice/ForecastsSlice";
 
 
-
 const store = configureStore({
     reducer:{
         forecasts: forecastsSlice.reducer,

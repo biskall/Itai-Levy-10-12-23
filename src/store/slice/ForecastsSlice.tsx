@@ -1,30 +1,35 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import {  ForecastsInitialState, AllForecastWeatherData } from "../../interfaces/AllInterfaces";
-import { forecastsByCityKey} from '../Api/FavoriteApi'
+import { forecastsByCityKey} from '../Api/AllApi';
+import { localForecasts } from "../../interfaces/exampleData";
 import axios from 'axios'
 
+// Define the initial state for the forecasts slice
 const initialState: ForecastsInitialState = {
     allForecastWeatherData:{
       Headline: undefined,
       DailyForecasts: undefined,
     },
     isError: false,
+    Isloading: true,
 };
 
+// Define an asynchronous thunk for fetching forecast data
 export const getForecastData = createAsyncThunk(
   'forecasts/getForecastData',
   async (cityKey:string, { getState }) => {
     try {
-        const response = await axios.get(forecastsByCityKey(cityKey), {headers: { Accept: 'application/json' }})
-        console.log(response);
+      //throw new Error('Intentional error for testing getForecastData');
+      const response = await axios.get(forecastsByCityKey(cityKey), {headers: { Accept: 'application/json' }})
+      console.log(response);
       return response.data;
     } catch (error) {
-      console.error("Error fetching weather data:", error);
+      console.error("Error fetching Forecast data:", error);
       throw error;
     }
   }
 );
-
+// Create the forecasts slice using createSlice
 const forecastsSlice = createSlice({
   name: 'forecasts',
   initialState,
@@ -36,11 +41,16 @@ const forecastsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getForecastData.fulfilled, (state, action: PayloadAction<AllForecastWeatherData>) => {
+        // Update the state with the fetched forecast data on success
         state.allForecastWeatherData = action.payload;
-        state.isError = false; // Reset error state on success
+        state.isError = false; 
+        state.Isloading = false
       })
       .addCase(getForecastData.rejected, (state) => {
+        // Update the state to indicate an error occurred during fetch
         state.isError = true;
+        state.Isloading = false;
+        state.allForecastWeatherData = localForecasts;
       });
   },
 });

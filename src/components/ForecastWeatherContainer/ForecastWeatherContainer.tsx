@@ -15,6 +15,7 @@ const ForecastWeatherContainer: React.FC<ForecastWeatherContainerProps> = ({city
   const dispatch = useAppDispatch();
   const forecastsData = useAppSelector((state) => state.forecasts.allForecastWeatherData);
 
+  // Function to initialize the component state based on favorites
   const initialStep = async () => {
     try {
       await dispatch(forecastsActions.getForecastData(cityKey));

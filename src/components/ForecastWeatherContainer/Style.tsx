@@ -7,7 +7,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "center",
     "& > :not(style)": {
-      margin: theme.spacing(2),
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
       width: 128,
       height: 128,
     },

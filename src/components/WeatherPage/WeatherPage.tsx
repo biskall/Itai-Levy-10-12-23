@@ -4,7 +4,6 @@ import {
   Grid,
   Typography,
   Box,
-  CircularProgress,
 } from "@mui/material";
 import useStyles from "./Style";
 import SearchButton from "../SearchButton/SearchButton";
@@ -14,6 +13,8 @@ import ForecastWeatherContainer from "../ForecastWeatherContainer/ForecastWeathe
 import { useAppDispatch, useAppSelector } from '../../store/Hook';
 import {favoriteActions} from "../../store/slice/FavoriteSlice"
 import {weatherActions} from "../../store/slice/WeatherSlice";
+import {messageForAlert} from "../../interfaces/exampleData";
+import Spinner from "../SpinnerComponent/Spinner";
 
 
 const WeatherPage = () => {
@@ -23,33 +24,37 @@ const WeatherPage = () => {
   const defultWeatherDataKeys = useAppSelector((state) => state.weather.defultWeatherDataKeys);
   const currentWeatherDataDetails = useAppSelector((state) => state.weather.currentWeatherDataDetails);
   const isError = useAppSelector((state) => state.weather.IsError);
-  const isCelsius = useAppSelector((state) => state.mode.isCelsius); 
-  const [defultData, setDefultData] = useState<any>(currentWeatherDataDetails);
+  const isLoading = useAppSelector((state) => state.weather.IsLoading);
 
-
+  // Function to perform initial steps, including fetching weather data and initializing local storage
   const initialStep = async () => {
     try{
-      if(currentWeatherDatakeys.cityKey != null && currentWeatherDatakeys.cityKey != "" ){
+      if(currentWeatherDatakeys.cityKey != null && currentWeatherDatakeys.cityKey !== "" ){
+        console.log("initialStep with cityKey from server");
         await dispatch(weatherActions.getWeatherDataByKey(currentWeatherDatakeys.cityKey));
       }else{
+        console.log("initialStep with cityKey from local");
         await dispatch(weatherActions.getWeatherDataByKey(defultWeatherDataKeys.cityKey));
       }
+
     }catch{
       console.log("isError");
     }
   };
   
-  useEffect(() => {
-    initialStep();
-  }, [currentWeatherDatakeys, currentWeatherDataDetails]);
 
   useEffect(() => {
+    if(isError){
+      alert(messageForAlert);
+    }
     initialStep();
     dispatch(favoriteActions.initialLocalStorage());
   }, []);
 
   return (
     <Box style={{marginTop: "20px"}}>
+      {isLoading &&  <Spinner isLoading={isLoading} />}
+      {!isLoading && 
     <Grid container spacing={3} className={classes.gridItem}>
       <Grid item container direction="column" className={classes.gridSearchButton} >
           {/* <NewSearchButton /> */}
@@ -64,18 +69,16 @@ const WeatherPage = () => {
       <Typography variant="h5" className={classes.cityTitle} >
        {currentWeatherDatakeys.cityName ? currentWeatherDatakeys.cityName : defultWeatherDataKeys.cityName}
       </Typography>
-      {currentWeatherDataDetails ? (
-            <MainPaperWeatherDetails WeatherData={currentWeatherDataDetails} />
-          ) : (
-            <CircularProgress/>
-          )}
+          {currentWeatherDataDetails &&
+          <MainPaperWeatherDetails WeatherData={currentWeatherDataDetails} />
+          }
       </Grid>
       <Grid item xs={12}>
           <ForecastWeatherContainer
            cityKey = {currentWeatherDatakeys.cityKey ? currentWeatherDatakeys.cityKey : defultWeatherDataKeys.cityKey}
            ></ForecastWeatherContainer>
       </Grid>
-    </Grid>
+    </Grid>}
     </Box>
   );
 };

@@ -1,5 +1,7 @@
+  export const messageForAlert = "The server is currently not working, you must renew your subscription or try again later. You are currently viewing local data"
+  
   //cityName
-  export const forecasts = 
+  export const localForecasts = 
   {
     "Headline": {
         "EffectiveDate": "2023-12-09T07:00:00-08:00",
@@ -173,7 +175,7 @@
 
 
   // data example response of useGetCurrentWeatherQuery
-  export const currentWeatherDataDetails = 
+  export const localCurrentWeatherDataDetails = 
     {
       "LocalObservationDateTime": "2023-12-06T02:48:00-08:00",
       "EpochTime": 1701859680,

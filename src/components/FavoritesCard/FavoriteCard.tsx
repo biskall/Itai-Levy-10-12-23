@@ -2,14 +2,10 @@ import React, {useState,useEffect} from "react";
 import { Typography, Card, CardContent } from "@mui/material";
 import useStyles from "./Style";
 import { useAppDispatch, useAppSelector } from '../../store/Hook';
-import { modeActions } from '../../store/slice/modeSlice';
 import { weatherActions } from "../../store/slice/WeatherSlice";
-import { CurrentWeatherDataDetails, WeatherDataWithKeyAndName } from "../../interfaces/AllInterfaces"; // TODO: when the app will be ready delte this line
+import {  WeatherDataWithKeyAndName } from "../../interfaces/AllInterfaces";
 import { useNavigate } from "react-router-dom";
 
-interface CityCardProps {
-  weatherData: WeatherDataWithKeyAndName,
-}
 
 const FavoritesCard: React.FC<WeatherDataWithKeyAndName> = (weatherData) => {
     const classes = useStyles();
@@ -18,24 +14,24 @@ const FavoritesCard: React.FC<WeatherDataWithKeyAndName> = (weatherData) => {
     const isCelsius = useAppSelector((state) => state.mode.isCelsius);
     const [data, setData] = useState<any>();
 
-
     const handleCardClick = () => {
       // Navigate to another component when the card is clicked
       dispatch(weatherActions.getWeatherDataByKey(data.cityKey));
       navigate("/");
     };
 
+    // Function to initialize the component state based on favorites
     const initialStep = async () => {
-      try{
         setData(weatherData);
-      }catch{
-
-      }
     };
 
     useEffect(() => {
       setTimeout(() => initialStep(), 100);
-    }, [data]);
+    }, [weatherData,isCelsius]);
+
+    useEffect(() => {
+      setTimeout(() => initialStep(), 100);
+    }, []);
 
     return (
       <>{data && 
@@ -45,7 +41,7 @@ const FavoritesCard: React.FC<WeatherDataWithKeyAndName> = (weatherData) => {
               {data.cityName}
               </Typography>
               <Typography variant="subtitle1" align="center" gutterBottom>
-              {isCelsius === true ? (data?.currentWeatherDataDetails[0]?.Temperature?.Metric?.Value) : (data?.currentWeatherDataDetails[0]?.Temperature?.Imperial?.Value)}
+              {isCelsius === true ? data?.currentWeatherDataDetails[0]?.Temperature?.Metric?.Value : data?.currentWeatherDataDetails[0]?.Temperature?.Imperial?.Value}
               </Typography>
               <Typography variant="body2" color="textSecondary" align="center"> 
               {data?.currentWeatherDataDetails[0]?.WeatherText} 

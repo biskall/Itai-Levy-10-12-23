@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingBottom: "5px",
     color: theme.palette.info.dark, 
     fontSize: '1.5em', 
-    fontWeight: 'bold',
+
     textTransform: 'uppercase',
   },
 }));

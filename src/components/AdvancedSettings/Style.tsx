@@ -1,7 +1,9 @@
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  // ... your styles here
+  Radio:{
+    TextColor: "#2c387e"
+  }
 }));
 
 export default useStyles;

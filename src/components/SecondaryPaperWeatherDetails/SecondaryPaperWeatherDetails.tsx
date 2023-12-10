@@ -18,17 +18,15 @@ const SecondaryPaperWeatherDetails: React.FC<SecondaryPaperWeatherDetailsProps> 
   const [minTemperatureValue, setMinTemperatureValue] = useState<number>();
   const isCelsius = useAppSelector((state) => state.mode.isCelsius);
 
+  // Get day and date in the desired format
   const setDayAndDate = (date: string) => {
     const observationDate = new Date(date);
-    // Get day
     const dayOfWeek = observationDate.toLocaleDateString('en-US', {
       weekday: 'long',
     });
-    // Get "dd/mm" format
     const convertedFormattedDay = observationDate.toLocaleDateString('en-US', {
       day: '2-digit',
     });
-
     const convertedFormattedMonth = observationDate.toLocaleDateString('en-US', {
       month: '2-digit',
     });

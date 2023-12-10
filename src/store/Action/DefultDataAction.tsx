@@ -1,5 +1,5 @@
 import React from 'react'
-import { weatherByKey } from '../Api/FavoriteApi'
+import { weatherByKey } from '../Api/AllApi'
 import axios from 'axios'
 import { CurrentWeatherDataDetails } from "../../interfaces/AllInterfaces";
 

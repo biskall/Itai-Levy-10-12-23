@@ -1,4 +1,4 @@
-const API_KEY = 'klQ267L9zTwaqnMLPyGAYhDCaaG2HyI2' //'g97hXVKDwlgxN8GEIjblmwSlqnik3uGx' // "aU5FBIJVxanY3UQf5AXpRHj3rd339yl6" = itaibiskall
+const API_KEY = 'aU5FBIJVxanY3UQf5AXpRHj3rd339yl6' //'g97hXVKDwlgxN8GEIjblmwSlqnik3uGx' // "aU5FBIJVxanY3UQf5AXpRHj3rd339yl6" = itaibiskall
 const BASE_URL = `https://dataservice.accuweather.com`
 
 

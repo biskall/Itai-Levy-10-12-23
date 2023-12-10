@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit";
 import { Country, WeatherInitialState, CurrentWeatherDataDetails, AllForecastWeatherData } from "../../interfaces/AllInterfaces";
-import { weatherByKey } from '../Api/FavoriteApi'
+import { weatherByKey } from '../Api/AllApi'
+import { localCurrentWeatherDataDetails } from "../../interfaces/exampleData";
 import axios from 'axios'
 
+// Define the initial state for the weather slice
 const initialState: WeatherInitialState = {
     options: [],
     defultWeatherDataKeys:{
@@ -18,60 +20,62 @@ const initialState: WeatherInitialState = {
     allForecastWeatherData: [],
     currentWeatherDataDetails: undefined,
     IsError: false,
+    IsLoading: true,
 }
-
+// Define an asynchronous thunk for fetching weather data by city key
 export const getWeatherDataByKey = createAsyncThunk(
     'weather/getWeatherDataByKey',
     async (cityKey : string) => {
       try{
         const res = await axios.get(weatherByKey(cityKey), {headers: { Accept: 'application/json' }});
-        return res.data[0] as CurrentWeatherDataDetails;
-      }catch(e: any){
-        console.log(e.message);
-        console.log("22222222")
-        return undefined;
+        return res.data[0] as CurrentWeatherDataDetails; 
+      }catch(error){
+        console.error("Error fetching Weather data:", error);
+        throw error;
       }
     }
   );
 
+// Create the weather slice using createSlice
 const weatherSlice = createSlice({
     name: 'weather',
     initialState,
     reducers:{
-        check(state){
-        },
-        setAutocompleteOptions(state, action: PayloadAction<{ options: Country[] }>){
-            //state.options = action.payload.options;
-        },
+        // Reducer for setting the current weather data keys from search
         setCurrentWeatherDataKeysFromSearch(state, action: PayloadAction<{ country: Country }>){
             console.log( action.payload.country);
             state.currentWeatherDatakeys.cityKey = action.payload.country.Key;
             state.currentWeatherDatakeys.cityName = action.payload.country.LocalizedName;
-            // TODO: function checkIsFavorite
-            //state.currentWeatherData.isFavorite = checkIsFavorite(action.payload.country[0].Key);
         },
+        // Reducer for setting the current weather data by details
         setCurrentWeatherDataByDetails(state, action: PayloadAction<{ currentWeatherDataDetails :CurrentWeatherDataDetails,  isFavorite: boolean }>){
             state.currentWeatherDataDetails = action.payload.currentWeatherDataDetails;
             if(action.payload.isFavorite !== state.currentWeatherDatakeys.isFavorite){
                 state.currentWeatherDatakeys.isFavorite = action.payload.isFavorite; 
             }
         },
+        // Reducer for setting the forecast weather data
         setForecastWeatherData(state, action: PayloadAction<{allForecastWeatherData : AllForecastWeatherData[]}>) {
             if(action.payload.allForecastWeatherData !== undefined){
                 state.allForecastWeatherData = action.payload.allForecastWeatherData;
             } 
-        },  //TODO pull the data of tel-aviv from localstorage or from server or hardcode
+        },  
     },
     extraReducers: (builder) => {
         builder
           .addCase(getWeatherDataByKey.fulfilled, (state, action: PayloadAction<CurrentWeatherDataDetails | undefined>) => {
+            // Update the state with the fetched current weather data on success
             if(action.payload != undefined){
                 state.currentWeatherDataDetails = action.payload;
-                state.IsError = false; // Reset error state on success
+                state.IsError = false; 
+                state.IsLoading = false;
             }
           })
+          // Update the state to indicate an error occurred during fetch
           .addCase(getWeatherDataByKey.rejected, (state) => {
+            state.IsLoading = false;
             state.IsError = true;
+            state.currentWeatherDataDetails = localCurrentWeatherDataDetails;
           });
       },
 })

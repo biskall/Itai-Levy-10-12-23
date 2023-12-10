@@ -10,6 +10,7 @@ export interface WeatherInitialState {
   allForecastWeatherData: AllForecastWeatherData[] | undefined,
   currentWeatherDataDetails :CurrentWeatherDataDetails | undefined,
   IsError: boolean,
+  IsLoading: boolean,
 }
 
 export interface DefultWeatherDataKeys {
@@ -86,6 +87,7 @@ export interface Country {
   export interface ForecastsInitialState{
     allForecastWeatherData: AllForecastWeatherData,
     isError : boolean,
+    Isloading: boolean,
   }
 
   export interface Forecast {

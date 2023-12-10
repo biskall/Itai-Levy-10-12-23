@@ -4,17 +4,24 @@ import { MainPaperWeatherDetailsProps } from "../../interfaces/AllInterfaces";
 import { useAppSelector } from '../../store/Hook';
 import useStyles from "./Style";
 
+function sleep(delay = 0) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
 
 const MainPaperWeatherDetails: React.FC<MainPaperWeatherDetailsProps> = ({WeatherData}) => {
   const classes = useStyles();
   const [formattedDate, setFormattedDate] = useState<string>();
   const [temperatureValue, setTemperatureValue] = useState<number>();
   const isCelsius = useAppSelector((state) => state.mode.isCelsius);
+  const currentWeatherDataDetails = useAppSelector((state) => state.weather.currentWeatherDataDetails);
+  const isLoading = useAppSelector((state) => state.weather.IsLoading); 
   
 
+  // Get day and date in the desired format
   const setDate = () => {
     const observationDate = new Date(WeatherData.LocalObservationDateTime ?? Date.now())
-    // Get day and date in the desired format
     const ConvertFormattWeakday = observationDate.toLocaleDateString('en-US', {
       weekday: 'long',
     });
@@ -30,28 +37,28 @@ const MainPaperWeatherDetails: React.FC<MainPaperWeatherDetailsProps> = ({Weathe
     setFormattedDate(`${ConvertFormattWeakday} ${convertedFormattedDay}/${convertedFormattedMonth}/${convertedFormattedYear}`);
   }
 
-  const convertTemperatureValue = () => {
-    var temperature;
-    if(isCelsius){
-      temperature = WeatherData.Temperature.Metric.Value;
-    }else{
-      temperature= (WeatherData.Temperature.Imperial.Value * 9/5) + 32;
-    }
-    setTemperatureValue(temperature);
-    console.log(temperatureValue);
+  const set = async() => {
+    console.log("WeatherData.Temperature.Metric.Value")
+    console.log(WeatherData.Temperature.Metric.Value)
+    console.log("WeatherData.Temperature.Imperial.Value")
+    console.log(WeatherData.Temperature.Imperial.Value)
+    await sleep(1e3);
+    console.log("WeatherData.Temperature.Metric.Value")
+    console.log(WeatherData.Temperature.Metric.Value)
+    console.log("WeatherData.Temperature.Imperial.Value")
+    console.log(WeatherData.Temperature.Imperial.Value)
   }
 
   useEffect(() => {
-    setTimeout(() => convertTemperatureValue(), 1000);
+    //set();
   }, [isCelsius]);
 
   useEffect(() => {
-    if(WeatherData !== undefined){
-      console.log(WeatherData);
-      setDate();
-      setTimeout(() => convertTemperatureValue(), 100);
-    }
-  }, []);
+    console.log(WeatherData)
+    setDate();
+    console.log("set")
+    set();
+  }, [currentWeatherDataDetails]);
 
   return (
     <Box className={classes.mainBox}>
@@ -62,7 +69,7 @@ const MainPaperWeatherDetails: React.FC<MainPaperWeatherDetailsProps> = ({Weathe
       <Grid container spacing={0}>
         <Grid item xs={6}>
           <Typography variant="h4" className={classes.gridContainerTypography}>
-            {temperatureValue} 
+            {isCelsius ? WeatherData.Temperature.Metric.Value : WeatherData.Temperature.Imperial.Value} 
             <span className={classes.degreeSign}>°</span>
           </Typography>
         </Grid>

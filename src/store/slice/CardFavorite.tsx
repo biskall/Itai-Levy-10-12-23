@@ -1,20 +1,24 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { CardFavoritesIntialState, CurrentWeatherDataDetails, Favorites, WeatherDataWithKeyAndName } from "../../interfaces/AllInterfaces";
-import { weatherByKey } from '../Api/FavoriteApi'
+import { weatherByKey } from '../Api/AllApi'
 import axios from 'axios'
 
-const FavoritesLocalStorageKey = "FavoritesSessionStorageKey";
+// Define the localStorage key for storing favorites
+const FavoritesLocalStorageKey = "FavoritesLocalStorageKey";
 
+// Define the initial state for the cardFavorite slice
 const initialState: CardFavoritesIntialState = {
-    WeatherDataWithKeyAndName: [],
+  WeatherDataWithKeyAndName: [],
   Favorites: [],
   IsError: false,
 };
 
+// Define an asynchronous thunk for fetching all favorites' weather data
 export const getAllFavoritesWeatherData = createAsyncThunk(
     'cardFavorite/getAllFavoritesWeatherData',
     async (_, { getState }) => {
       try {
+        // Get the favorites from localStorage
         const favoritesLocalStorage = localStorage.getItem(FavoritesLocalStorageKey);
         var weatherDataWithKeyAndName: WeatherDataWithKeyAndName[] = []
         
@@ -22,28 +26,25 @@ export const getAllFavoritesWeatherData = createAsyncThunk(
           var state = getState() as { favorite: CardFavoritesIntialState };
           const listFavorites: Favorites[] = JSON.parse(favoritesLocalStorage) as Favorites[];
           
+          // Loop through each favorite to fetch weather data
           for (let favorite of listFavorites) {
+            // Make an API request using Axios to fetch weather data by key
             const response = await axios.get(weatherByKey(favorite.cityKey), {headers: { Accept: 'application/json' }})
             const currentWeatherDataDetails: CurrentWeatherDataDetails = await response.data;
-  
-            // Create an object with the required structure
+            // Create a WeatherDataWithKeyAndName object and add it to the array
             const weatherDataItem: WeatherDataWithKeyAndName = {
               currentWeatherDataDetails,
               cityKey: favorite.cityKey,
               cityName: favorite.cityName,
             };
-  
-            // Push the object into the array
+        
             weatherDataWithKeyAndName.push(weatherDataItem);
           }
         }
-  
-        console.log("check 5555");
-        console.log(weatherDataWithKeyAndName);
-        // You might want to return the complete array
+        // Return the array of weather data with key and name
         return weatherDataWithKeyAndName;
       } catch (error) {
-        console.error("Error fetching weather data:", error);
+        console.log("Error fetching weather data:", error);
         throw error;
       }
     }
@@ -53,18 +54,14 @@ const cardFavoriteSlice = createSlice({
   name: 'cardFavorite',
   initialState,
   reducers: {
-    check(state) {
-      // Your check reducer logic
-    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getAllFavoritesWeatherData.fulfilled, (state, action: PayloadAction<WeatherDataWithKeyAndName[] | undefined>) => {
         if(action.payload){
-            state.WeatherDataWithKeyAndName = action.payload;
-            state.IsError = false; // Reset error state on success
-        }
-        else{
+            state.WeatherDataWithKeyAndName = action.payload; 
+            state.IsError = false;
+        }else{
             state.IsError = true;
         }
       })
