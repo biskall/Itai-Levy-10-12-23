@@ -4,77 +4,76 @@ import {
   Grid,
   Typography,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import useStyles from "./Style";
 import SearchButton from "../SearchButton/SearchButton";
 import MainPaperWeatherDetails from "../MainPaperWeatherDetails/MainPaperWeatherDetails";
-import SecondaryPaperWeatherDetails from "../SecondaryPaperWeatherDetails/SecondaryPaperWeatherDetails";
 import AdvancedSettings from "../AdvancedSettings/AdvancedSettings";
-import OthersWeatherContainer from "../ForecastWeatherContainer/ForecastWeatherContainer";
+import ForecastWeatherContainer from "../ForecastWeatherContainer/ForecastWeatherContainer";
 import { useAppDispatch, useAppSelector } from '../../store/Hook';
-import { useGetCurrentWeatherQuery, useGetForecastWeatherQuery } from "../../store/action/autocomplete-api-slice";
-import { MainPaperWeatherDetailsProps, WeatherData, weatherData, ParamsForecastQuery } from "../../interfaces/AllInterfaces";
+import {favoriteActions} from "../../store/slice/FavoriteSlice"
+import {weatherActions} from "../../store/slice/WeatherSlice";
 
 
 const WeatherPage = () => {
   const classes = useStyles();
-  const currentWeatherData = useAppSelector((state) => state.weather.currentWeatherData);
-  const [defultData, setDefultData] = useState<WeatherData[]>(weatherData);
-  const defultCityKey = useAppSelector((state) => state.weather.defultCityKey);
-  const [currentWeather, setCurrentWeather] = useState<WeatherData[]>(weatherData); // // data example response of useGetCurrentWeatherQuery
-  const [isCelsius, setIsCelsius] = useState<boolean>(true); // TODO: change to useSelector when AdvancedSettings will be ready
-  const [data, Data] = useState<WeatherData[]>(weatherData); // data equal to data from useGetCurrentWeatherQuery
-  const [paramsForecastQuery,setParamsForecastQuery] = useState<ParamsForecastQuery>();
-  // TODO: check if first useGetCurrentWeatherQuery work
-  //useGetCurrentWeatherQuery(currentWeatherData.cityKey != null ? currentWeatherData.cityKey : defultCityKey); // check it
-  //const {data,  isLoading, isSuccess, isError } = useGetCurrentWeatherQuery(cityKey); // its working
-  //const {dataForecast,  isLoading, isSuccess, isError } = useGetForecastWeatherQuery(cityKey);
+  const dispatch = useAppDispatch();
+  const currentWeatherDatakeys = useAppSelector((state) => state.weather.currentWeatherDatakeys);
+  const defultWeatherDataKeys = useAppSelector((state) => state.weather.defultWeatherDataKeys);
+  const currentWeatherDataDetails = useAppSelector((state) => state.weather.currentWeatherDataDetails);
+  const isError = useAppSelector((state) => state.weather.IsError);
+  const isCelsius = useAppSelector((state) => state.mode.isCelsius); 
+  const [defultData, setDefultData] = useState<any>(currentWeatherDataDetails);
 
-  const setData = (data :WeatherData[]) =>{
-    if(data == undefined){
-      // TODO: error function instead of setCurrentWeather(defultData);
-      setCurrentWeather(defultData);
-    }else{
-      setCurrentWeather(data);
+
+  const initialStep = async () => {
+    try{
+      if(currentWeatherDatakeys.cityKey != null && currentWeatherDatakeys.cityKey != "" ){
+        await dispatch(weatherActions.getWeatherDataByKey(currentWeatherDatakeys.cityKey));
+      }else{
+        await dispatch(weatherActions.getWeatherDataByKey(defultWeatherDataKeys.cityKey));
+      }
+    }catch{
+      console.log("isError");
     }
-  }
+  };
   
   useEffect(() => {
-    // Dispatch action to fetch weather data for default city or Tel Aviv
-    // for dynamic data
-    // if (isSuccess && data) {
-    //   console.log(data);
-    //   setTimeout(() => setDate(data), 500); // Assuming LocalObservationDateTime is a property in your data
-    // }
-    if (data) {
-      console.log(data);
-      setTimeout(() => setData(data), 500); // Assuming LocalObservationDateTime is a property in your data
-    }
-  }, [data]);
+    initialStep();
+  }, [currentWeatherDatakeys, currentWeatherDataDetails]);
+
+  useEffect(() => {
+    initialStep();
+    dispatch(favoriteActions.initialLocalStorage());
+  }, []);
 
   return (
     <Box style={{marginTop: "20px"}}>
     <Grid container spacing={3} className={classes.gridItem}>
       <Grid item container direction="column" className={classes.gridSearchButton} >
-          <SearchButton />
+          {/* <NewSearchButton /> */}
+          <SearchButton/>
       </Grid>
       <Container>
-        <AdvancedSettings />
+        <AdvancedSettings 
+        cityKey ={currentWeatherDatakeys.cityKey ? currentWeatherDatakeys.cityKey : defultWeatherDataKeys.cityKey}
+        cityName = {currentWeatherDatakeys.cityName ? currentWeatherDatakeys.cityName : defultWeatherDataKeys.cityName}/>
       </Container>
       <Grid item xs={12} className={classes.gridMainPaperWeatherDetails}>
       <Typography variant="h5" className={classes.cityTitle} >
-       {currentWeatherData.cityName ? currentWeatherData.cityName : "tel aviv"}  {/*TODO: insert defult data */}
+       {currentWeatherDatakeys.cityName ? currentWeatherDatakeys.cityName : defultWeatherDataKeys.cityName}
       </Typography>
-        <MainPaperWeatherDetails 
-        date = {currentWeather[0].LocalObservationDateTime}
-        temperature = {currentWeather[0].Temperature}
-        />
+      {currentWeatherDataDetails ? (
+            <MainPaperWeatherDetails WeatherData={currentWeatherDataDetails} />
+          ) : (
+            <CircularProgress/>
+          )}
       </Grid>
       <Grid item xs={12}>
-          {/* TODO: map array of next 5 days weather */}
-          <OthersWeatherContainer
-           cityKey = {currentWeatherData.cityKey ? currentWeatherData.cityKey : "1111"}// TODO: insert defult data
-           ></OthersWeatherContainer>
+          <ForecastWeatherContainer
+           cityKey = {currentWeatherDatakeys.cityKey ? currentWeatherDatakeys.cityKey : defultWeatherDataKeys.cityKey}
+           ></ForecastWeatherContainer>
       </Grid>
     </Grid>
     </Box>

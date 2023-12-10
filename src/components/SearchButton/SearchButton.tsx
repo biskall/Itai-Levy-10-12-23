@@ -6,11 +6,9 @@ import {Paper,
   TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../../store/Hook';
-import {useGetAutocompleteQuery} from "../../store/action/autocomplete-api-slice";
-import {Country} from "../../interfaces/AllInterfaces";
 import {weatherActions} from '../../store/slice/WeatherSlice';
 import useStyles from "./Style";
-// import { getAutoOptions } from "../store/action/WeatherAction";
+import { autocompleteActions } from '../../store/slice/AutocompleteSlice';
 
 
 function SearchButton() {
@@ -18,11 +16,7 @@ function SearchButton() {
   const dispatch = useAppDispatch();
   const [searchValue, setSearchValue] = useState<string>('');
   const [Value, setValue] = useState<string>();
-  const options = useAppSelector((state) => state.weather.options);
-  const [country, setCountry] = useState<Country[]>([]);
-  // const {data: todos,  isLoading, isSuccess, isError } = useGetTodoQuery(); //its working 
-  // const [addTodo] = useAddTodoMutation();
-
+  const optionsAutocomplete = useAppSelector((state) => state.autocomplete.Country);
 
   const isInputValid = (input: string | undefined): boolean => {
     // Regular expression pattern for English letters
@@ -33,39 +27,23 @@ function SearchButton() {
     return true;
   };
 
-  const checkValid = () => {
-    console.log("check");
-    if (!isInputValid(Value) && Number(Value) !== 0) {
-      alert('Please enter text in English only.'); //TODO: Error message
-    }if(Value != null && Value != ''){
-      console.log("2 if check");
-      console.log(Value);
-      //addTodo(Value);
-      //let temp: any = JSON.stringify(todos);
-      //console.log(todos?.length);
-      //TODO: load auto options with value
-      //dispatch(getAutoOptions(value));
-    }
-
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newInputValue = e.target.value;
     console.log(newInputValue);
+    await dispatch(autocompleteActions.getAllautocompleteData(newInputValue));
     setValue(newInputValue);
   };
 
-  const handleClick = (value: any): void => {
+  const handleClick = (value: any): void => { 
     console.log(value);
-    const currentWeather = options.find((option) => option.LocalizedName == value);
-    console.log(currentWeather);
-    if(typeof currentWeather !== undefined) { 
-      dispatch(weatherActions.setCurrentWeatherData({country: currentWeather}));
+    const currentWeather = optionsAutocomplete.find((option) => option.LocalizedName === value) ?? null;
+    console.log(currentWeather?.Country); 
+    if(currentWeather != null && isInputValid(value)) { 
+      dispatch(weatherActions.setCurrentWeatherDataKeysFromSearch({country: currentWeather}));
     }
   };
 
   useEffect(() => {
-    //const timer = setTimeout(() => checkValid(), 500);
   }, []);
 
   return (
@@ -75,7 +53,7 @@ function SearchButton() {
         <Autocomplete
           className={classes.input}
           freeSolo
-          options={options.map((temp: any) => temp.LocalizedName)} 
+          options={optionsAutocomplete.map((temp: any) => temp.LocalizedName)} 
           value={searchValue}
           onChange={(e, value: any) => handleClick(value)}
           renderInput={(params) => (

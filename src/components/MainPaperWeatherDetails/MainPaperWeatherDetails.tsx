@@ -1,39 +1,57 @@
 import React, {useState, useEffect} from 'react';
 import { Paper, Typography, Grid, Box } from '@material-ui/core';
-import { MainPaperWeatherDetailsProps, WeatherData, weatherData } from "../../interfaces/AllInterfaces";
-import { useGetCurrentWeatherQuery } from "../../store/action/autocomplete-api-slice";
+import { MainPaperWeatherDetailsProps } from "../../interfaces/AllInterfaces";
+import { useAppSelector } from '../../store/Hook';
 import useStyles from "./Style";
 
 
-const MainPaperWeatherDetails: React.FC<MainPaperWeatherDetailsProps> = ({date, temperature }) => {
+const MainPaperWeatherDetails: React.FC<MainPaperWeatherDetailsProps> = ({WeatherData}) => {
   const classes = useStyles();
   const [formattedDate, setFormattedDate] = useState<string>();
-  const [isCelsius, setIsCelsius] = useState<boolean>(true); // TODO: change to useSelector or props
+  const [temperatureValue, setTemperatureValue] = useState<number>();
+  const isCelsius = useAppSelector((state) => state.mode.isCelsius);
   
 
-  const setDate = (date: string) => {
-
-    console.log("setDate");
-    console.log(date)
-    const observationDate = new Date(date);
-  
+  const setDate = () => {
+    const observationDate = new Date(WeatherData.LocalObservationDateTime ?? Date.now())
     // Get day and date in the desired format
-    // TODO: change format
-    const ConvertFormattDate = `${observationDate.toLocaleDateString('en-US', {
+    const ConvertFormattWeakday = observationDate.toLocaleDateString('en-US', {
       weekday: 'long',
-    })} ${observationDate.toLocaleDateString('en-US', {
-      day: '2-digit',
-      month: '2-digit',
+    });
+    const convertedFormattedYear = observationDate.toLocaleDateString('en-US', {
       year: 'numeric',
-    })}`;
+    });
+    const convertedFormattedDay = observationDate.toLocaleDateString('en-US', {
+      day: '2-digit',
+    });
+    const convertedFormattedMonth = observationDate.toLocaleDateString('en-US', {
+      month: '2-digit',
+    });
+    setFormattedDate(`${ConvertFormattWeakday} ${convertedFormattedDay}/${convertedFormattedMonth}/${convertedFormattedYear}`);
+  }
 
-    setFormattedDate(ConvertFormattDate);
+  const convertTemperatureValue = () => {
+    var temperature;
+    if(isCelsius){
+      temperature = WeatherData.Temperature.Metric.Value;
+    }else{
+      temperature= (WeatherData.Temperature.Imperial.Value * 9/5) + 32;
+    }
+    setTemperatureValue(temperature);
+    console.log(temperatureValue);
   }
 
   useEffect(() => {
-    // TODO: convert date 
-    setDate(date);
-  }, [date]);
+    setTimeout(() => convertTemperatureValue(), 1000);
+  }, [isCelsius]);
+
+  useEffect(() => {
+    if(WeatherData !== undefined){
+      console.log(WeatherData);
+      setDate();
+      setTimeout(() => convertTemperatureValue(), 100);
+    }
+  }, []);
 
   return (
     <Box className={classes.mainBox}>
@@ -41,20 +59,17 @@ const MainPaperWeatherDetails: React.FC<MainPaperWeatherDetailsProps> = ({date, 
       <Typography variant="h6" gutterBottom>
        {formattedDate}
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={0}>
         <Grid item xs={6}>
-          <Typography variant="h4" >
-            {isCelsius ? temperature.Metric.Value : temperature.Imperial.Value} 
+          <Typography variant="h4" className={classes.gridContainerTypography}>
+            {temperatureValue} 
             <span className={classes.degreeSign}>°</span>
           </Typography>
-          <Typography variant="subtitle1" className={classes.subtitle}>Min</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Typography variant="h4">
-            {isCelsius ? temperature.Metric.Value : temperature.Imperial.Value}
-            <span className={classes.degreeSign}>°</span>
+          <Typography variant="h6" className={classes.gridContainerTypography}>
+           {WeatherData ? WeatherData.WeatherText : 'N/A'}
           </Typography>
-          <Typography variant="subtitle1" className={classes.subtitle}>Max</Typography>
         </Grid>
       </Grid>
       </Paper>

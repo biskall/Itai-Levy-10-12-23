@@ -30,6 +30,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   subtitle: {
     marginLeft: -7, 
   },
+  gridContainerTypography: {
+    alignItems:"flex-end",
+    marginTop: 10,
+  }
 }));
 
 export default useStyles;

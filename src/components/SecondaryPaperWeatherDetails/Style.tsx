@@ -19,20 +19,42 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: "#000",
     opacity: .4
   },
-  degreeSign: {
+  degreeSign1: {
     fontSize: '0.5 em', 
     verticalAlign: 'small',
     position: 'relative',
     top: -5, 
     marginRight: -5,
-    marginLeft: -3,
+    marginLeft: -1,
+  },
+    degreeSign2: {
+    fontSize: '0.5 em', 
+    verticalAlign: 'small',
+    position: 'relative',
+    top: -5, 
+    marginRight: -5,
+    marginLeft: -2,
   },
   temperature: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: -65, 
+    alignItems: 'center', 
+    marginLeft: 30,
     marginBottom: -20,
+  },
+  typoMin: {
+    justifyContent: 'center',
+    display: 'flex',
+  },
+  typoMid: {
+    justifyContent: 'center',
+    display: 'flex',
+    marginLeft: 3,
+    marginRight: 4,
+  },
+  typoMax: {
+    justifyContent: 'center',
+    display: 'flex',
   },
   sunImage: {
     width: '50px', 

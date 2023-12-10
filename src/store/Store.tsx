@@ -2,18 +2,20 @@ import { configureStore } from "@reduxjs/toolkit";
 import favoriteSlice from "./slice/FavoriteSlice";
 import modeSlice from "./slice/modeSlice";
 import weatherSlice from "./slice/WeatherSlice";
-import {autocompleteSlice} from "./action/autocomplete-api-slice";
+import cardFavoriteSlice from "./slice/CardFavorite";
+import autocompleteSlice from "./slice/AutocompleteSlice";
+import forecastsSlice from "./slice/ForecastsSlice";
+
 
 
 const store = configureStore({
     reducer:{
+        forecasts: forecastsSlice.reducer,
+        autocomplete: autocompleteSlice.reducer,
+        cardFavorite: cardFavoriteSlice.reducer,
         favorite: favoriteSlice.reducer,
         mode: modeSlice.reducer,
         weather: weatherSlice.reducer,
-        [autocompleteSlice.reducerPath]: autocompleteSlice.reducer
-    },
-    middleware:(getDefaultMiddleware) =>{
-        return getDefaultMiddleware().concat(autocompleteSlice.middleware);
     },
 });
 

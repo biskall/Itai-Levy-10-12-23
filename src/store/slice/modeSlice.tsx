@@ -1,17 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Mode } from "../../interfaces/AllInterfaces";
 
 const initialState: Mode = {
-    value: "light"
+    value: "light",
+    isCelsius: true
 }
 
 const modeSlice = createSlice({
     name: 'mode',
     initialState,
     reducers:{
-        check(state){
-            console.log("check");
-            console.log(state.value);
+        changeIsCelsius(state, action: PayloadAction<{ isCelsius: boolean }>){
+            state.isCelsius = action.payload.isCelsius;
         },
         changeMode(state){
             if(state.value === "light"){
@@ -19,7 +19,6 @@ const modeSlice = createSlice({
             }else{
                 state.value = "light"
             }
-            console.log(state.value);
         }
     }
 })
